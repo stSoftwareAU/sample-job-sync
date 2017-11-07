@@ -9,27 +9,21 @@
  *  ASP Converters Pty Ltd.
  *  Use is subject to license terms.
  */
-
 package com.aspc.samplejobsync;
 
 import com.aspc.remote.application.AppCmdLine;
-import com.aspc.remote.database.InvalidDataException;
 import com.aspc.remote.util.misc.CLogger;
 import com.aspc.remote.util.misc.FileUtil;
 import com.aspc.remote.util.misc.StringUtilities;
-import com.aspc.remote.util.misc.TimeUtil;
 import java.io.File;
-import java.util.Date;
-import javax.annotation.Nonnull;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.logging.Log;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- *
+ * 
  * @author parminder
  */
 public class App extends AppCmdLine {
@@ -71,61 +65,8 @@ public class App extends AppCmdLine {
     @Override
     public void process() throws Exception {
 
-        String remoteURL = config.getString("remoteURL");
-
-        String sinceString = "";
-        try {
-            sinceString = config.getString("since");
-        } catch (JSONException je) {
-            LOGGER.info(je.getMessage() + " Default since: last 24 hours");
-        }
-
-        ScanJob scanJob = new ScanJob(remoteURL, config.getString("username"), config.getString("password"));
-
-        long since = getDate(sinceString).getTime();
-
-        while (true) {
-            since = scanJob.process(since);
-        }
-    }
-
-    /*
-     * Accepted formats for date/timestamp string.
-     * 
-     * long    :- 1430549369303,
-     * date    :- 2016-11-06T08:49:37Z,
-     * strings :- -7 Days, -1 day, -5 Hours, -15 seconds, -20 Secs,
-     *            -5 Mins & -1 Minute
-     */
-    public Date getDate(final @Nonnull String sinceString) throws InvalidDataException {
-
-        Date since;
-
-        if (StringUtilities.notBlank(sinceString)) {
-
-            Date now = new Date();
-
-            if (sinceString.startsWith("-")) {
-                since = TimeUtil.subtractDurationFromDate(now, sinceString.substring(1), null);
-            } else {
-                try {
-                    since = TimeUtil.parseUserTime(sinceString, null);
-                } catch (InvalidDataException invalidDataException) {
-                    throw new InvalidDataException(invalidDataException.getMessage());
-                }
-            }
-
-            if (since == null) {
-                throw new InvalidDataException("'since' is null");
-            } else if (since.after(now)) {
-                throw new InvalidDataException("'since' cannot be after now");
-            }
-
-        } else {
-            since = TimeUtil.addDurationToDate(new Date(), "-24", null);
-        }
-
-        return since;
+        SyncJob syncJob = new SyncJob(config);
+        syncJob.process();
     }
 
     /**
