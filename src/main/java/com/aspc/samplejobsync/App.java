@@ -8,9 +8,8 @@
  *  This software is the proprietary information of
  *  ASP Converters Pty Ltd.
  *  Use is subject to license terms.
-
- @TODO look at the msDelta program 
  */
+
 package com.aspc.samplejobsync;
 
 import com.aspc.remote.application.AppCmdLine;
@@ -38,8 +37,6 @@ public class App extends AppCmdLine {
     private static final Log LOGGER = CLogger.getLog(App.class.toString());//#LOGGER-NOPMD
 
     private JSONObject config;
-
-    private String remoteURL;
 
     @Override
     protected void addExtraOptions(final Options options) {
@@ -73,25 +70,25 @@ public class App extends AppCmdLine {
 
     @Override
     public void process() throws Exception {
-        
-        remoteURL = config.getString("remoteURL");
-        
+
+        String remoteURL = config.getString("remoteURL");
+
         String sinceString = "";
         try {
             sinceString = config.getString("since");
         } catch (JSONException je) {
             LOGGER.info(je.getMessage() + " Default since: last 24 hours");
         }
-        
+
         ScanJob scanJob = new ScanJob(remoteURL, config.getString("username"), config.getString("password"));
-        
+
         long since = getDate(sinceString).getTime();
 
         while (true) {
             since = scanJob.process(since);
         }
     }
-    
+
     /*
      * Accepted formats for date/timestamp string.
      * 
@@ -131,7 +128,6 @@ public class App extends AppCmdLine {
         return since;
     }
 
-    
     /**
      * The main for the program
      *

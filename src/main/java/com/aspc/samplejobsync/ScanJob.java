@@ -1,8 +1,16 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Copyright (c) 2001-2004 ASP Converters Pty Ltd.
+ *
+ *  www.stSoftware.com.au
+ *
+ *  All Rights Reserved.
+ *
+ *  This software is the proprietary information of
+ *  ASP Converters Pty Ltd.
+ *  Use is subject to license terms.
+ *
  */
+
 package com.aspc.samplejobsync;
 
 import org.apache.commons.logging.Log;

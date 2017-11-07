@@ -1,12 +1,3 @@
-package com.aspc.samplejobsync;
-
-import com.aspc.remote.database.InvalidDataException;
-import com.aspc.remote.util.misc.TimeUtil;
-import java.util.Date;
-import org.apache.commons.codec.binary.StringUtils;
-import org.junit.Assert;
-import org.junit.Test;
-
 /*
  *  Copyright (c) 2001-2004 ASP Converters Pty Ltd.
  *
@@ -18,17 +9,26 @@ import org.junit.Test;
  *  ASP Converters Pty Ltd.
  *  Use is subject to license terms.
  */
+
+package com.aspc.samplejobsync;
+
+import com.aspc.remote.database.InvalidDataException;
+import com.aspc.remote.util.misc.TimeUtil;
+import java.util.Date;
+import org.junit.Assert;
+import org.junit.Test;
+
 /**
  *
  * @author parminder
  */
-public class TestApp {
+public class TestScanJob {
 
     @Test
     public void testScanJob() throws InvalidDataException {
 
         ScanJob scanJob = new ScanJob("https://demo2.jobtrack.com.au", "admin", "admin");
-        Date since = TimeUtil.addDurationToDate(new Date(), "-24", null);
+        Date since = TimeUtil.addDurationToDate(new Date(), "-2000", null);
 
         if (since == null) {
             Assert.fail();
