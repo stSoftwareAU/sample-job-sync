@@ -9,7 +9,7 @@
  *  ASP Converters Pty Ltd.
  *  Use is subject to license terms.
  */
-package com.aspc.samplejobsync;
+package com.aspc;
 
 import com.aspc.remote.application.AppCmdLine;
 import com.aspc.remote.util.misc.CLogger;
@@ -23,12 +23,17 @@ import org.apache.commons.logging.Log;
 import org.json.JSONObject;
 
 /**
- * 
+ * <h1>SampleSyncApp</h1>
+ *
+ * The SampleSyncApp program implements an application 
+ * that simply gets configuration from JSON file which 
+ * calls SampleSync class.
+ *
  * @author parminder
  */
-public class App extends AppCmdLine {
+public class SampleSyncApp extends AppCmdLine {
 
-    private static final Log LOGGER = CLogger.getLog(App.class.toString());//#LOGGER-NOPMD
+    private static final Log LOGGER = CLogger.getLog("src.main.java.com.aspc.SampleSyncApp");//#LOGGER-NOPMD
 
     private JSONObject config;
 
@@ -64,9 +69,14 @@ public class App extends AppCmdLine {
 
     @Override
     public void process() throws Exception {
+        
+        String host = config.getString("host");
+        String username = config.getString("username");
+        String password = config.getString("password");
+        String since = config.optString("since");
 
-        SyncJob syncJob = new SyncJob(config);
-        syncJob.process();
+        SampleSync sampleSync = new SampleSync(host, username, password);
+        sampleSync.scan(since);
     }
 
     /**
@@ -76,6 +86,6 @@ public class App extends AppCmdLine {
      * @throws Exception a serious problem.
      */
     public static void main(String[] args) throws Exception {
-        new App().execute(args);
+        new SampleSyncApp().execute(args);
     }
 }
