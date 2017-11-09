@@ -1,6 +1,6 @@
 {
     "host": "https://demo2.jobtrack.com.au",
-    "username": "admin",
-    "password": "admin",
+    "username": "user",
+    "password": "user",
     "since": "-100 Days"
 }
